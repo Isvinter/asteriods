@@ -3,11 +3,24 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from constants import *
 from player import *
+from asteroids import *
+from asteroidfield import *
 
 
 def main():
     
     pygame.init()
+    
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    
+    asteroids = pygame.sprite.Group()
+    Asteroid.containers = (asteroids, updatable, drawable)
+    
+    AsteroidField.containers = (updatable)
+    
+    asteroid_field = AsteroidField()
     
     time_object = pygame.time.Clock()
     dt = 0
@@ -21,8 +34,12 @@ def main():
                 return
         
         screen.fill((0, 0, 0))
-        player.draw(screen)
-        player.update(dt)
+        
+        for entity in drawable:
+            entity.draw(screen)
+            
+        updatable.update(dt)
+        
         delta_time = time_object.tick(60)
         dt = delta_time / 1000
         
