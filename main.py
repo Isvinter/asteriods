@@ -22,7 +22,7 @@ def main():
         
         screen.fill((0, 0, 0))
         player.draw(screen)
-        
+        player.update(dt)
         delta_time = time_object.tick(60)
         dt = delta_time / 1000
         
