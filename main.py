@@ -45,11 +45,17 @@ def main():
         updatable.update(dt)
         
         #collision check
-        for asteriod in asteroids:
-            if player.colision_check(asteriod):
+        for asteroid in asteroids:
+            if player.collision_check(asteroid):
                 print("Game Over!")
                 sys.exit()
                 
+        for shot in shots:
+             for asteroid in asteroids:
+                 if shot.collision_check(asteroid): 
+                    shot.kill()  
+                    asteroid.split()
+                    asteroid.kill()
         
         delta_time = time_object.tick(60)
         dt = delta_time / 1000
