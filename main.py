@@ -1,4 +1,5 @@
 import os
+import sys
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from constants import *
@@ -20,6 +21,9 @@ def main():
     
     AsteroidField.containers = (updatable)
     
+    shots = pygame.sprite.Group()
+    Shot.containers = (shots, updatable, drawable)
+    
     asteroid_field = AsteroidField()
     
     time_object = pygame.time.Clock()
@@ -39,6 +43,13 @@ def main():
             entity.draw(screen)
             
         updatable.update(dt)
+        
+        #collision check
+        for asteriod in asteroids:
+            if player.colision_check(asteriod):
+                print("Game Over!")
+                sys.exit()
+                
         
         delta_time = time_object.tick(60)
         dt = delta_time / 1000
